@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+echo "Setting up Pyenv and Pipenv"
+pyenv local 3.8.0;
+pipenv install --skip-lock \
+  requests \
+  flask \
+  google-cloud-storage;
+echo "Starting Pipenv virtual environment"
+pipenv shell;

@@ -1,0 +1,5 @@
+Flask
+pytest
+gunicorn
+requests
+google-cloud-storage

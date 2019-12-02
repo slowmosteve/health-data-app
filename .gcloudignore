@@ -1,0 +1,8 @@
+bin
+.dockerignore
+.gitignore
+Pipfile
+.pytest_cache
+__pycache__
+/.venv
+/.vscode

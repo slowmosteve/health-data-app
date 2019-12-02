@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+echo "building Docker image and running on local server"
+docker build --tag local_app .;
+# note that --rm is used to clean up container and filesystem
+docker run --rm -p 8080:8080 local_app;
