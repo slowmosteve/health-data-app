@@ -45,6 +45,25 @@ This application is largely based on the example here: https://github.com/Google
 - added a test route in app server which is triggered by a pubsub message
 
 ## To do
+- enable pubsub to create auth tokens 
+```gcloud projects add-iam-policy-binding PROJECT-ID \
+     --member=serviceAccount:service-PROJECT-NUMBER@gcp-sa-pubsub.iam.gserviceaccount.com \
+     --role=roles/iam.serviceAccountTokenCreator
+```
+- create service account for pubsub
+```gcloud iam service-accounts create cloud-run-pubsub-invoker \
+     --display-name "Cloud Run Pub/Sub Invoker"
+```
+- give service account permission to invoke pubsub
+```gcloud run services add-iam-policy-binding pubsub-tutorial \
+   --member=serviceAccount:cloud-run-pubsub-invoker@PROJECT-ID.iam.gserviceaccount.com \
+   --role=roles/run.invoker
+```
+- create topic and push to cloud run service url endpoint
+```gcloud pubsub subscriptions create myRunSubscription --topic myRunTopic \
+   --push-endpoint=SERVICE-URL/ \
+   --push-auth-service-account=cloud-run-pubsub-invoker@PROJECT-ID.iam.gserviceaccount.com
+```
 - run BigQuery load in response to pubsub message
 - create route for presenting data summary
 
