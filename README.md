@@ -41,6 +41,7 @@ This application is largely based on the example here: https://github.com/Google
 - `utils.py` has functions for API call and writing to file
 - `gcp.py` has function for uploading file to GCS
 - updated dockerfile to use local modules
+- updated dockerfile to use `python:3.7-slim-buster` image instead of `python:3.7-alpine` which had issues installing Pubsub client library
 
 ## To do
 - add Pubsub message after uploading file

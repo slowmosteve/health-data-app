@@ -3,3 +3,5 @@ pytest
 gunicorn
 requests
 google-cloud-storage
+google-cloud-pubsub==0.45.0
+grpcio==1.22.0

@@ -1,5 +1,6 @@
 # use lightweight alpine distribution of python
-FROM python:3.7-alpine
+# FROM python:3.7-alpine
+FROM python:3.7-slim-buster
 
 # Copy application dependency manifests to the container image.
 # Copying this separately prevents re-running pip install on every code change.

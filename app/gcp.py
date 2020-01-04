@@ -25,19 +25,19 @@ def upload_to_gcs(data_filename, destination_bucket_name):
         print("Exception: {}".format(e))
         logger.error("Exception: {}".format(e))
 
-def publish_data(publisher, topic_name, message_data, attribute):
+def pubsub_publish(topic_name, message_data, attribute=None):
     """Function that publishes a message to a GCP Pub/Sub topic
     Args:
-        publisher: Pub/Sub publisher client
         topic_name: Pub/Sub topic name
         message_data: JSON message to be published
         attribute: Additional metadata to be published (key value pairs)
     """
+    pubsub_client = pubsub.PublisherClient()
     json_data = json.dumps(message_data)
     data_payload = base64.urlsafe_b64encode(bytearray(json_data, 'utf8'))
     print("Publishing message: {}".format(json_data))
     logger.info("Publishing message: {}".format(json_data))
-    message_future = publisher.publish(topic_name, data=data_payload, attribute=attribute)
+    message_future = pubsub_client.publish(topic_name, data=data_payload, attribute=attribute)
     message_future.add_done_callback(pubsub_callback)
 
 def pubsub_callback(message_future):
