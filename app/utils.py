@@ -3,7 +3,7 @@ import json
 import requests
 import logging
 
-logger = logging.getLogger("app.utils")
+logger = logging.getLogger('app.utils')
 
 def get_data(endpoint):
     """Sends a GET request to the Health Canada API
@@ -49,7 +49,7 @@ def write_to_file(response):
             json.dump(response.json(), outfile)
 
         # open preprocessed file and create list based on objects in response
-        with open(filename_preprocess, "r") as read_file:
+        with open(filename_preprocess, 'r') as read_file:
             data = json.load(read_file)
             output = [json.dumps(record) for record in data]
 
@@ -74,6 +74,6 @@ def write_to_file(response):
         print("Exception: {}".format(e))
         logger.error("Exception: {}".format(e))
 
-if __name__ == "__main__":
-    response = get_data ("regulatorydecision")
+if __name__ == '__main__':
+    response = get_data ('regulatorydecision')
     write_to_file(response)

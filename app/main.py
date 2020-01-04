@@ -18,19 +18,19 @@ def fetch_data():
     """This route will initiate a request for data from the Health Canada API
     """
     if request.method == 'GET':
-        return ('Use this endpoint with POST method to fetch data', 200)
+        return ("Use this endpoint with POST method to fetch data", 200)
     elif request.method == 'POST':
         # request data
-        app.logger.info("requesting data")
-        data = get_data("regulatorydecision")
+        app.logger.info("Requesting data")
+        data = get_data('regulatorydecision')
         # write to file
-        app.logger.info("writing to file")
+        app.logger.info("Writing to file")
         write_to_file(data)
         # upload to cloud storage
-        app.logger.info("uploading to GCS")
-        upload_to_gcs("data.json", "health-ca-data-staging")
+        app.logger.info("Uploading to GCS")
+        upload_to_gcs('data.json', 'health-ca-data-staging')
 
-        return ('Fetching data', 200)
+        return ("Fetching data", 200)
 
 if __name__ == '__main__':
     PORT = int(os.getenv('PORT')) if os.getenv('PORT') else 8080
