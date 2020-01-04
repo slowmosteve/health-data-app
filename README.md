@@ -42,10 +42,11 @@ This application is largely based on the example here: https://github.com/Google
 - `gcp.py` has function for uploading file to GCS
 - updated dockerfile to use local modules
 - updated dockerfile to use `python:3.7-slim-buster` image instead of `python:3.7-alpine` which had issues installing Pubsub client library
+- added a test route in app server which is triggered by a pubsub message
 
 ## To do
-- add Pubsub message after uploading file
-- add route in app server that will be subscribed to pubsub
+- run BigQuery load in response to pubsub message
+- create route for presenting data summary
 
 ## Setup
 - create a project using `glcoud projects create [project name]`
