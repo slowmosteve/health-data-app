@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+echo """
+***************************************************************
+Starting build and deploy script
+***************************************************************
+"""
+read -p "GCP Project ID: " project_id;
+read -p "Container name: " container_name;
+read -p "Service name: " service_name;
+echo """
+***************************************************************
+Submitting build $project_id/$container_name to Cloud Build
+***************************************************************
+"""
+gcloud builds submit --tag gcr.io/$project_id/$container_name;
+echo """
+***************************************************************
+Deploying service $service_name to Cloud Run
+***************************************************************
+"""
+gcloud run deploy $service_name --image gcr.io/$project_id/$container_name;

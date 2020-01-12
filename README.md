@@ -68,10 +68,11 @@ This application is largely based on the example here: https://github.com/Google
 - create route for presenting data summary
 
 ## Setup
-- create a project using `glcoud projects create [project name]`
-- create a gcloud configuration using `gcloud config configurations create [project name]`
+- create a project using `glcoud projects create [project id]`
+- create a gcloud configuration using `gcloud config configurations create [project id]`
 - setup config using `gcloud init`
-- create a cloud storage bucket
-- build container and publish on Container Registry `gcloud builds submit --tag gcr.io/[project name]/[container name]`
-- deploy app `gcloud run deploy [service name] --image gcr.io/[project name]/[container name]`
+- create a cloud storage bucket for storing NDJSON files
+- create a bigquery dataset and table for loading data
+- build container and publish on Container Registry `gcloud builds submit --tag gcr.io/[project id]/[container name]`
+- deploy app `gcloud run deploy [service name] --image gcr.io/[project id]/[container name]`
 

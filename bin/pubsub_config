@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+echo """
+***************************************************************
+Starting Pubsub config script
+***************************************************************
+"""
+read -p "GCP Project ID: " project_id;
+read -p "GCP Project Number: " project_number;
+echo """
+***************************************************************
+Adding IAM policy for service account token creator
+***************************************************************
+"""
+gcloud projects add-iam-policy-binding $project_id \
+     --member=serviceAccount:service-$project_number@gcp-sa-pubsub.iam.gserviceaccount.com \
+     --role=roles/iam.serviceAccountTokenCreator;
+echo """
+***************************************************************
+Creating service account for Pubsub invoker
+***************************************************************
+"""
+gcloud iam service-accounts create cloud-run-pubsub-invoker \
+     --display-name "Cloud Run Pub/Sub Invoker";
+echo """
+***************************************************************
+Give service account permission to invoke Cloud Run service
+***************************************************************
+"""
+read -p "Cloud Run service name: " service_name;
+gcloud run services add-iam-policy-binding $service_name \
+   --member=serviceAccount:cloud-run-pubsub-invoker@$project_id.iam.gserviceaccount.com \
+   --role=roles/run.invoker;
+echo """
+***************************************************************
+Create Pubsub topic
+***************************************************************
+"""
+read -p "Pubsub topic name: " pubsub_topic;
+gcloud pubsub topics create $pubsub_topic;
+echo """
+***************************************************************
+Create subscription to Pubsub topic
+***************************************************************
+"""
+read -p "Pubsub subscription name: " pubsub_subscription;
+read -p "Cloud Run push endpoint URL: " service_push_url;
+gcloud pubsub subscriptions create $pubsub_subscription --topic $pubsub_topic \
+   --push-endpoint=$service_push_url \
+   --push-auth-service-account=cloud-run-pubsub-invoker@$project_id.iam.gserviceaccount.com;

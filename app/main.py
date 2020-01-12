@@ -4,7 +4,7 @@ import base64
 from flask import Flask, request
 import logging
 from utils import get_data, write_to_file
-from gcp import upload_to_gcs, pubsub_publish, pubsub_callback
+from gcp import upload_to_gcs, gcs_to_bq, pubsub_publish, pubsub_callback
 
 # set log level (DEBUG, INFO)
 logging.basicConfig(level=logging.INFO)
@@ -37,7 +37,7 @@ def fetch_data():
         # publish message to pubsub
         app.logger.info("Publishing status message to Pubsub")
         message = "Data uploaded to GCS"
-        pubsub_publish('gcs_updates', message)
+        pubsub_publish('gcs_load', message, "")
 
         return ("Fetching data", 200)
 
@@ -49,17 +49,26 @@ def bq_load():
     if not envelope:
         message = "No Pub/Sub message received"
         print("Error: {}".format(message))
+        app.logger.info("Error: {}".format(message))
         return "Bad Request: {} \n {}".format(message, request), 400
 
     if not isinstance(envelope, dict) or 'message' not in envelope:
         message = "Invalid Pub/Sub message format"
         print("Error: {}".format(message))
+        app.logger.info("Error: {}".format(message))
         return "Bad Request: {}".format(message), 400
 
     pubsub_message = envelope['message']
 
     if isinstance(pubsub_message, dict) and 'data' in pubsub_message:
         message = base64.b64decode(pubsub_message['data']).decode('utf-8').strip()
+        app.logger.info("Received message: {}".format(message))
+        source_bucket_name = "health-ca-data-staging"
+        destination_bucket_name = "health-ca-data-processed"
+        dataset_id = "health"
+        table_id = "data"
+        gcs_to_bq(source_bucket_name, destination_bucket_name, dataset_id, table_id)
+
         return "Received message: {}".format(message), 200
 
     # Flush the stdout to avoid log buffering.
