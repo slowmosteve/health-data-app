@@ -43,6 +43,9 @@ This application is largely based on the example here: https://github.com/Google
 - updated dockerfile to use local modules
 - updated dockerfile to use `python:3.7-slim-buster` image instead of `python:3.7-alpine` which had issues installing Pubsub client library
 - added a test route in app server which is triggered by a pubsub message
+- `load_bq` endpoint only works when unauthenticated invokations are allowed. need to add authorization header. details about service to service authentication can be found here:
+  - https://cloud.google.com/run/docs/authenticating/service-to-service
+  - https://cloud.google.com/run/docs/securing/service-identity
 
 ## To do
 - enable pubsub to create auth tokens 
