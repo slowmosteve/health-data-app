@@ -37,7 +37,7 @@ def fetch_data():
         # publish message to pubsub
         app.logger.info("Publishing status message to Pubsub")
         message = "Data uploaded to GCS"
-        pubsub_publish('gcs_load', message, "")
+        pubsub_publish('projects/health-ca-data/topics/gcs_load', message, "")
 
         return ("Fetching data", 200)
 

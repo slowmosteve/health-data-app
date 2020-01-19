@@ -31,8 +31,8 @@ def get_data(endpoint):
         print("Exception: {}".format(e))
         logger.error("Exception: {}".format(e))
     else:
-        print("Request successful: {}".format(resp))
-        logger.info("Request successful: {}".format(resp))
+        print("Request status: {}".format(resp))
+        logger.info("Request status: {}".format(resp))
         return resp
 
     # print("Response JSON: {}".format(resp.json()))

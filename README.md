@@ -76,3 +76,10 @@ This application is largely based on the example here: https://github.com/Google
 - build container and publish on Container Registry `gcloud builds submit --tag gcr.io/[project id]/[container name]`
 - deploy app `gcloud run deploy [service name] --image gcr.io/[project id]/[container name]`
 
+## Authenticating calls
+By default, unauthenticated calls are not allowed. In order to make a request to the service, you can use an approach similar to:
+```
+curl -H \
+"Authorization: Bearer $(gcloud auth print-identity-token)" \
+https://health-app-vqrdn6mxoa-ue.a.run.app
+```
